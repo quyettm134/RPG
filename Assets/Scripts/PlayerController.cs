@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
 
     private void AdjustFacingDirection()
