@@ -8,6 +8,7 @@ public class EnemyPathfinding : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Vector2 moveDirection;
+    private KnockBack knockBack;
     private bool isFlipped;
 
     private void Awake()
@@ -15,6 +16,7 @@ public class EnemyPathfinding : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        knockBack = GetComponent<KnockBack>();
         isFlipped = spriteRenderer.flipX;
     }
 
@@ -33,6 +35,7 @@ public class EnemyPathfinding : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (knockBack.gettingKnockedBack) return;
         Move();
     }
 

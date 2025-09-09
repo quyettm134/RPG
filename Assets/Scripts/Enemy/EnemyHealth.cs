@@ -5,6 +5,12 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private int baseHealth = 3;
 
     private int currentHealth;
+    private KnockBack knockBack;
+
+    private void Awake()
+    {
+        knockBack = GetComponent<KnockBack>();
+    }
 
     void Start()
     {
@@ -14,6 +20,7 @@ public class EnemyHealth : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        knockBack.GetKnockedBack(PlayerController.instance.transform, 15f);
         IsDead();
     }
 

@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     [SerializeField] private float moveSpeed = 1.0f;
+    public static PlayerController instance;
 
     private PlayerControls playerControls;
     private Vector2 movement;
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
         playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
