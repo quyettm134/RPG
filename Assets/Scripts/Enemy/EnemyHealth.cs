@@ -3,13 +3,16 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] private int baseHealth = 3;
+    [SerializeField] private GameObject deathVFX;
 
     private int currentHealth;
     private KnockBack knockBack;
+    private Flash flash;
 
     private void Awake()
     {
         knockBack = GetComponent<KnockBack>();
+        flash = GetComponent<Flash>();
     }
 
     void Start()
@@ -21,13 +24,14 @@ public class EnemyHealth : MonoBehaviour
     {
         currentHealth -= damage;
         knockBack.GetKnockedBack(PlayerController.instance.transform, 15f);
-        IsDead();
+        StartCoroutine(flash.FlashRoutine());
     }
 
-    private void IsDead()
+    public void IsDead()
     {
         if (currentHealth <= 0)
         {
+            Instantiate(deathVFX, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }
