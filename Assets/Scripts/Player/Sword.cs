@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Sword : MonoBehaviour
@@ -5,12 +6,14 @@ public class Sword : MonoBehaviour
     [SerializeField] private GameObject slashPrefab;
     [SerializeField] private Transform slashEffect;
     [SerializeField] private Transform weaponCollider;
+    [SerializeField] private float attackCD = 0.5f;
 
     private PlayerControls playerControls;
     private PlayerController playerController;
     private ActiveWeapon activeWeapon;
     private Animator animator;
     private GameObject slashAnimation;
+    private bool attackBtnDown, isAttacking = false;
 
     private void Awake()
     {
@@ -27,22 +30,46 @@ public class Sword : MonoBehaviour
 
     private void Start()
     {
-        playerControls.Combat.Attack.started += _ => Attack();
+        playerControls.Combat.Attack.started += _ => StartAttacking();
+        playerControls.Combat.Attack.canceled += _ => StopAttacking();
     }
 
     private void Update()
     {
         MouseFollow();
+        Attack();
+    }
+
+    private void StartAttacking()
+    {
+        attackBtnDown = true;
+    }
+
+    private void StopAttacking()
+    {
+        attackBtnDown = false;
     }
 
     private void Attack()
     {
-        animator.SetTrigger("Attack");
-        weaponCollider.gameObject.SetActive(true);
+        if (attackBtnDown && !isAttacking)
+        {
+            isAttacking = true;
+            animator.SetTrigger("Attack");
+            weaponCollider.gameObject.SetActive(true);
 
-        slashAnimation = Instantiate(slashPrefab, slashEffect.position, Quaternion.identity);
-        slashAnimation.transform.parent = this.transform.parent;
-        slashAnimation.GetComponent<SpriteRenderer>().flipX = playerController.FacingLeft;
+            slashAnimation = Instantiate(slashPrefab, slashEffect.position, Quaternion.identity);
+            slashAnimation.transform.parent = this.transform.parent;
+            slashAnimation.GetComponent<SpriteRenderer>().flipX = playerController.FacingLeft;
+
+            StartCoroutine(AttackCDRoutine());
+        }
+    }
+
+    private IEnumerator AttackCDRoutine()
+    {
+        yield return new WaitForSeconds(attackCD);
+        isAttacking = false;
     }
 
     private void AttackRegistering()
