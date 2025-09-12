@@ -8,13 +8,16 @@ public class Flash : MonoBehaviour
 
     private Material defaultMaterial;
     private SpriteRenderer spriteRenderer;
-    private EnemyHealth enemyHealth;
 
     private void Awake()
     {
-        enemyHealth = GetComponent<EnemyHealth>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         defaultMaterial = spriteRenderer.material;
+    }
+
+    public float GetRestoreMaterialTime()
+    {
+        return restoreDefaultMaterialTime;
     }
 
     public IEnumerator FlashRoutine()
@@ -22,6 +25,5 @@ public class Flash : MonoBehaviour
         spriteRenderer.material = whiteFlashMaterial;
         yield return new WaitForSeconds(restoreDefaultMaterialTime);
         spriteRenderer.material = defaultMaterial;
-        enemyHealth.IsDead();
     }
 }
