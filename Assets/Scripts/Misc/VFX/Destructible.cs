@@ -9,7 +9,7 @@ public class Destructible : MonoBehaviour
         if (collision.GetComponent<DamageSource>())
         {
             Instantiate(destroyVFX, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
     }
 }

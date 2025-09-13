@@ -25,7 +25,7 @@ public class EnemyHealth : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        knockBack.GetKnockedBack(PlayerController.instance.transform, knockBackForce);
+        knockBack.GetKnockedBack(Player.Instance.transform, knockBackForce);
         StartCoroutine(flash.FlashRoutine());
         StartCoroutine(CheckStatusRoutine());
     }
@@ -41,7 +41,7 @@ public class EnemyHealth : MonoBehaviour
         if (currentHealth <= 0)
         {
             Instantiate(deathVFX, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
     }
 }

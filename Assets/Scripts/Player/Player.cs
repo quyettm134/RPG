@@ -1,34 +1,28 @@
 using System.Collections;
+using Unity.Cinemachine;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class Player : Singleton<Player>
 {
-    public bool FacingLeft
-    {
-        get
-        {
-            return facingLeft;
-        }
-    }
     [SerializeField] private float moveSpeed = 1.0f;
     [SerializeField] private float dashSpeed = 4f;
     [SerializeField] private TrailRenderer trailRenderer;
 
-    public static PlayerController instance;
-
     private PlayerControls playerControls;
     private Vector2 movement;
     private Rigidbody2D rb;
-    private bool facingLeft = false;
     private bool isDashing = false;
     private float baseMoveSpeed;
+
+    public bool FacingLeft => facingLeft;
+    private bool facingLeft = false;
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
-    private void Awake()
+    protected override void Awake()
     {
-        instance = this;
+        base.Awake();
         playerControls = new PlayerControls();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -42,6 +36,12 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        var vcam = FindFirstObjectByType<CinemachineCamera>();
+        if (vcam != null)
+        {
+            vcam.Follow = transform;
+        }
+
         playerControls.Movement.Dash.performed += _ => Dash();
         baseMoveSpeed = moveSpeed;
     }

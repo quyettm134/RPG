@@ -9,7 +9,7 @@ public class Sword : MonoBehaviour
     [SerializeField] private float attackCD = 0.5f;
 
     private PlayerControls playerControls;
-    private PlayerController playerController;
+    private Player player;
     private ActiveWeapon activeWeapon;
     private Animator animator;
     private GameObject slashAnimation;
@@ -18,7 +18,7 @@ public class Sword : MonoBehaviour
     private void Awake()
     {
         playerControls = new PlayerControls();
-        playerController = GetComponentInParent<PlayerController>();
+        player = GetComponentInParent<Player>();
         activeWeapon = GetComponentInParent<ActiveWeapon>();
         animator = GetComponent<Animator>();
     }
@@ -60,7 +60,7 @@ public class Sword : MonoBehaviour
 
             slashAnimation = Instantiate(slashPrefab, slashEffect.position, Quaternion.identity);
             slashAnimation.transform.parent = this.transform.parent;
-            slashAnimation.GetComponent<SpriteRenderer>().flipX = playerController.FacingLeft;
+            slashAnimation.GetComponent<SpriteRenderer>().flipX = player.FacingLeft;
 
             StartCoroutine(AttackCDRoutine());
         }
@@ -90,7 +90,7 @@ public class Sword : MonoBehaviour
     private void MouseFollow()
     {
         Vector3 mousePos = Input.mousePosition;
-        Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(playerController.transform.position);
+        Vector3 playerScreenPoint = Camera.main.WorldToScreenPoint(player.transform.position);
 
         float mouseAngle = Mathf.Atan2(mousePos.x, mousePos.y) * Mathf.Rad2Deg;
 
