@@ -10,8 +10,8 @@ public class ExitScene : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Player>())
         {
-            SceneManager.LoadScene(sceneToLoad);
             SceneManagement.Instance.SetSceneTransitionName(sceneTransitionName);
+            SceneManager.LoadScene(sceneToLoad);
         }
     }
 }
