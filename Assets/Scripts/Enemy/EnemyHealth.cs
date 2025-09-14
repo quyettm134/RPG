@@ -26,11 +26,11 @@ public class EnemyHealth : MonoBehaviour
     {
         currentHealth -= damage;
         knockBack.GetKnockedBack(Player.Instance.transform, knockBackForce);
-        StartCoroutine(flash.FlashRoutine());
-        StartCoroutine(CheckStatusRoutine());
+        StartCoroutine(flash.Flashing());
+        StartCoroutine(CheckStatus());
     }
 
-    private IEnumerator CheckStatusRoutine()
+    private IEnumerator CheckStatus()
     {
         yield return new WaitForSeconds(flash.GetRestoreMaterialTime());
         IsDead();

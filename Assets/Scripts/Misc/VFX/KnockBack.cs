@@ -18,10 +18,10 @@ public class KnockBack : MonoBehaviour
         gettingKnockedBack = true;
         Vector2 diff = (transform.position - damageSource.position).normalized * knockBackPower * rb.mass;
         rb.AddForce(diff, ForceMode2D.Impulse);
-        StartCoroutine(KnockBackRoutine());
+        StartCoroutine(KnockedBack());
     }
 
-    private IEnumerator KnockBackRoutine()
+    private IEnumerator KnockedBack()
     {
         yield return new WaitForSeconds(knockBackTime);
         rb.linearVelocity = Vector2.zero;

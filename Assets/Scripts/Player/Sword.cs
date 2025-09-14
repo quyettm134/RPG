@@ -62,11 +62,11 @@ public class Sword : MonoBehaviour
             slashAnimation.transform.parent = this.transform.parent;
             slashAnimation.GetComponent<SpriteRenderer>().flipX = player.FacingLeft;
 
-            StartCoroutine(AttackCDRoutine());
+            StartCoroutine(AttackCD());
         }
     }
 
-    private IEnumerator AttackCDRoutine()
+    private IEnumerator AttackCD()
     {
         yield return new WaitForSeconds(attackCD);
         isAttacking = false;

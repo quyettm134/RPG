@@ -19,6 +19,7 @@ public class Player : Singleton<Player>
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private KnockBack knockBack;
 
     protected override void Awake()
     {
@@ -27,6 +28,7 @@ public class Player : Singleton<Player>
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        knockBack = GetComponent<KnockBack>();
     }
 
     private void OnEnable()
@@ -67,6 +69,7 @@ public class Player : Singleton<Player>
 
     private void Move()
     {
+        if (knockBack.gettingKnockedBack) return;
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
 
@@ -77,7 +80,7 @@ public class Player : Singleton<Player>
             isDashing = true;
             moveSpeed *= dashSpeed;
             trailRenderer.emitting = true;
-            StartCoroutine(EndDashRoutine());
+            StartCoroutine(EndDash());
         }
     }
 
@@ -89,7 +92,7 @@ public class Player : Singleton<Player>
         spriteRenderer.flipX = facingLeft = mousePos.x < playerScreenPoint.x;
     }
 
-    private IEnumerator EndDashRoutine()
+    private IEnumerator EndDash()
     {
         float dashTime = 0.2f;
         float dashCD = 0.5f;

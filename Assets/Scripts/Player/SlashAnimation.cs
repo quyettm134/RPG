@@ -19,6 +19,6 @@ public class SlashAnimation : MonoBehaviour
 
     public void SelfDestruct()
     {
-        Destroy(gameObject);
+        Destroy(this.gameObject);
     }
 }

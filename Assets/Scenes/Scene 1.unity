@@ -12820,10 +12820,13 @@ GameObject:
   - component: {fileID: 1806326217}
   - component: {fileID: 1806326216}
   - component: {fileID: 1806326215}
-  - component: {fileID: 1806326218}
   - component: {fileID: 1806326219}
   - component: {fileID: 1806326220}
   - component: {fileID: 1806326221}
+  - component: {fileID: 1806326218}
+  - component: {fileID: 1806326224}
+  - component: {fileID: 1806326223}
+  - component: {fileID: 1806326222}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -13017,6 +13020,48 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortAtRoot: 0
+--- !u!114 &1806326222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806326214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc3644b4c3ce9034bb3c420d59089fe7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whiteFlashMaterial: {fileID: 2100000, guid: 2989540f70dac61438982277072b5d3b, type: 2}
+  restoreDefaultMaterialTime: 0.2
+--- !u!114 &1806326223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806326214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0fbacac22f4674488bb82e8554f1524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockBackTime: 0.1
+--- !u!114 &1806326224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806326214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e10f049b5d1aa245afcbbe4784f41eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  knockBackForce: 10
+  recoveryTime: 1
 --- !u!1001 &1822795696
 PrefabInstance:
   m_ObjectHideFlags: 0
