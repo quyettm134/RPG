@@ -2,8 +2,15 @@ using UnityEngine;
 
 public class ItemPickup : MonoBehaviour
 {
-    [SerializeField] private float PickupDistance = 5f;
-    [SerializeField] private float accelarationRate = 0.2f;
+    private enum ItemType
+    {
+        GoldCoin,
+        Health
+    }
+
+    [SerializeField] private ItemType itemType;
+    [SerializeField] private float pickupDistance = 5f;
+    [SerializeField] private float accelerationRate = 0.2f;
     [SerializeField] private float moveSpeed = 3f;
 
     private Vector3 moveDirection;
@@ -17,14 +24,24 @@ public class ItemPickup : MonoBehaviour
     private void Update()
     {
         Vector3 playerPosition = Player.Instance.transform.position;
+        float distanceToPlayer = Vector3.Distance(transform.position, playerPosition);
 
-        moveDirection = Vector3.Distance(this.transform.position, playerPosition) < PickupDistance ?
-                        (playerPosition - this.transform.position).normalized :
-                        Vector3.zero;
+        bool canPickup = true;
 
-        moveSpeed = Vector3.Distance(this.transform.position, playerPosition) < PickupDistance ?
-                    moveSpeed + accelarationRate :
-                    0;
+        switch (itemType)
+        {
+            case ItemType.GoldCoin:
+                canPickup = distanceToPlayer < pickupDistance;
+                break;
+
+            case ItemType.Health:
+                canPickup = distanceToPlayer < pickupDistance &&
+                            PlayerHealth.Instance.CurrentHealth < PlayerHealth.Instance.MaxHealth;
+                break;
+        }
+
+        moveDirection = canPickup ? (playerPosition - transform.position).normalized : Vector3.zero;
+        moveSpeed = canPickup ? moveSpeed + accelerationRate : 0;
     }
 
     private void FixedUpdate()
@@ -36,7 +53,30 @@ public class ItemPickup : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Player>())
         {
-            Destroy(this.gameObject);
+            if (HandlePickup())
+            {
+                Destroy(this.gameObject);
+            }
+        }
+    }
+
+    private bool HandlePickup()
+    {
+        switch (itemType)
+        {
+            case ItemType.GoldCoin:
+                return true;
+
+            case ItemType.Health:
+                if (PlayerHealth.Instance.CurrentHealth < PlayerHealth.Instance.MaxHealth)
+                {
+                    PlayerHealth.Instance.Heal();
+                    return true;
+                }
+                return false;
+
+            default:
+                return false;
         }
     }
 }

@@ -1,26 +1,26 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : Singleton<PlayerHealth>
 {
+    [SerializeField] private int currentHealth = 10;
     [SerializeField] private int maxHealth = 10;
     [SerializeField] private float knockBackForce = 10f;
     [SerializeField] private float recoveryTime = 1f;
 
-    private int currentHealth;
+    public int CurrentHealth => currentHealth;
+    public int MaxHealth => maxHealth;
+
     private bool canTakeDamage = true;
     private KnockBack knockBack;
     private Flash flash;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+        currentHealth = maxHealth;
         knockBack = GetComponent<KnockBack>();
         flash = GetComponent<Flash>();
-    }
-
-    private void Start()
-    {
-        currentHealth = maxHealth;
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -32,6 +32,11 @@ public class PlayerHealth : MonoBehaviour
             knockBack.GetKnockedBack(collision.gameObject.transform, knockBackForce);
             StartCoroutine(flash.Flashing());
         }
+    }
+
+    public void Heal()
+    {
+        currentHealth++;
     }
 
     private void TakeDamage(int damage)
