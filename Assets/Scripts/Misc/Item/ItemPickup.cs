@@ -65,6 +65,7 @@ public class ItemPickup : MonoBehaviour
         switch (itemType)
         {
             case ItemType.GoldCoin:
+                CoinCounter.Instance.UpdateCurrentCoin();
                 return true;
 
             case ItemType.Health:

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : Singleton<PlayerHealth>
 {
@@ -11,6 +13,7 @@ public class PlayerHealth : Singleton<PlayerHealth>
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
 
+    private Slider healthSlider;
     private bool canTakeDamage = true;
     private KnockBack knockBack;
     private Flash flash;
@@ -18,9 +21,14 @@ public class PlayerHealth : Singleton<PlayerHealth>
     protected override void Awake()
     {
         base.Awake();
-        currentHealth = maxHealth;
         knockBack = GetComponent<KnockBack>();
         flash = GetComponent<Flash>();
+    }
+
+    private void Start()
+    {
+        currentHealth = maxHealth;
+        UpdateHealthSlider();
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -36,13 +44,18 @@ public class PlayerHealth : Singleton<PlayerHealth>
 
     public void Heal()
     {
-        currentHealth++;
+        if (CurrentHealth < MaxHealth)
+        {
+            currentHealth++;
+            UpdateHealthSlider();
+        }
     }
 
     private void TakeDamage(int damage)
     {
         canTakeDamage = false;
         currentHealth -= damage;
+        UpdateHealthSlider();
         StartCoroutine(Recovery());
     }
 
@@ -50,5 +63,16 @@ public class PlayerHealth : Singleton<PlayerHealth>
     {
         yield return new WaitForSeconds(recoveryTime);
         canTakeDamage = true;
+    }
+
+    private void UpdateHealthSlider()
+    {
+        if (healthSlider == null)
+        {
+            healthSlider = GameObject.Find("Health Slider").GetComponent<Slider>();
+        }
+
+        healthSlider.maxValue = MaxHealth;
+        healthSlider.value = CurrentHealth;
     }
 }
